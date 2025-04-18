@@ -16,6 +16,35 @@
 #include <QStackedWidget>
 #include "icecream.hpp"
 #include <QComboBox>
+#include "tinyxml2.h"
+#include <iostream>
+#include <string>
+#include "QFileDialog"
+#include "QInputDialog"
+
+using namespace tinyxml2;
+
+enum KickType
+{
+    PASS,
+    SHOOT
+};
+
+struct Pose2D
+{
+
+    Pose2D() : x_(0), y_(0), theta_(0)
+    {
+    }
+    Pose2D(int x, int y, int theta) : x_(x), y_(y), theta_(theta)
+    {
+    }
+
+    int x_, y_, theta_;
+};
+
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
@@ -98,6 +127,11 @@ public:
         "selection-color: white;"
         "}";
 
+private slots:
+    void addBehavorAct();
+    void deleteBehavorAct();
+    void saveBehavorAct();
+
 private:
     QStackedWidget *stackedWidget;
 
@@ -122,14 +156,13 @@ private:
     // UI Setup
     void setMainUi();
     void setupMainConnections();
-    void addBehavorAct();
-    void deleteBehavorAct();
-    void saveBehavorAct();
 
     // Behavior Generate
     void addMove();
     void addKick();
     void addGet();
+    void createFirstRoot();
+
     // Kick menu
     QPushButton *Kickbutton;
     QSlider *kickSlider;
@@ -145,9 +178,17 @@ private:
     int ui_selected = 1;
 
     // Store Value From UI
-    QString nameMove, targetMove, toleranceMove, movetypeMove, state_robot;
-    QString nameKick, targetKick, kickType, shootType, kickPower;
+    QString nameMove, targetMove, toleranceMove, movetypeMove = "PATH", state_robot = "RUNNING";
+    QString nameKick, targetKick, kickType = "Pass", shootType = "Flat Shoot", kickPower;
+    
 
-    int num_get = 0, num_receive = 0;
+    QString selectedBehavior = "MOVE";
+    int num_get = 0, num_receive = 0, getBallType=0;
+
+
+    // XML Document
+    XMLDocument doc;
+    XMLElement *sequence, *bt;
+
 };
 #endif // MAINWINDOW_H
