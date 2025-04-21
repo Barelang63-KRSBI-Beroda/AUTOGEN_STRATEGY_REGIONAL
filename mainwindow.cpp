@@ -60,7 +60,7 @@ void MainWindow::setMainUi()
     botbar->setLayout(botbarLayout);
 
     // Target Format
-    QRegExp regex("^\\d+;\\d+;\\d+$");
+    QRegExp regex("^-?\\d+;-?\\d+;-?\\d+$");
     QValidator *validator = new QRegExpValidator(regex, this);
 
     // ###     Move Menu
