@@ -1,3 +1,5 @@
 # AUTOGEN_STRATEGY_REGIONAL
-This GUI For setting strategy regional KRI 
+
+This GUI is for setting the strategy for regional KRI.
+
 ![Tampilan GUI](UI_PICT/image.png)
