@@ -179,26 +179,44 @@ void MainWindow::setMainUi()
     setCentralWidget(central);
 }
 
+void MainWindow::clearAllInput()
+{
+    // Clear all input fields
+    nameMoveinput->clear();
+    targetinput->clear();
+    toleranceinput->clear();
+    movetypeinput->setCurrentIndex(0);
+    state_robotinput->setCurrentIndex(0);
+
+    kickNameinput->clear();
+    kickTargetinput->clear();
+    kickSlider->setValue(0);
+    kickTypeinput->setCurrentIndex(0);
+    shootTypeinput->setCurrentIndex(0);
+}
+
 void MainWindow::setupMainConnections()
 {
     // Navigation Buttons
     connect(movebutton, &QPushButton::clicked, [this]()
             { stackedWidget->setCurrentIndex(0); 
             selectedBehavior = "MOVE";
+            clearAllInput();
             this->ui_selected = 1; });
     connect(shootbutton, &QPushButton::clicked, [this]()
-            { stackedWidget->setCurrentIndex(1); this->ui_selected=2; 
+            { stackedWidget->setCurrentIndex(1); this->ui_selected=2;
+    clearAllInput();
             selectedBehavior = "KICK"; });
 
     // Get Button Action
     connect(getbutton, &QPushButton::clicked, [this]()
             { this->ui_selected = 3;
-                 getBallType = 1; selectedBehavior = "GET"; });
+                 getBallType = 1; selectedBehavior = "GET"; clearAllInput(); });
 
     // Receive Button Action
     connect(receivebutton, &QPushButton::clicked, [this]()
             { this->ui_selected = 4; 
-                getBallType = 0; selectedBehavior = "RECEIVE"; });
+                getBallType = 0; selectedBehavior = "RECEIVE";  clearAllInput(); });
     // End Navigation Buttons
 
     // Shoot Menu
@@ -365,8 +383,6 @@ void MainWindow::addMove()
     sequence_move->InsertEndChild(actionMove);
 
     sequence->InsertEndChild(sequence_move);
-
-
 }
 
 void MainWindow::addKick()
@@ -400,8 +416,6 @@ void MainWindow::addKick()
 
     // Add the reactive sequence to the main sequence
     sequence->InsertEndChild(reactiveSeq);
-
-
 }
 
 void MainWindow::addGet()
@@ -420,7 +434,7 @@ void MainWindow::addGet()
         num_receive++;
         name += std::to_string(num_receive);
     }
-  
+
     auto *getBall = doc.NewElement("getBall");
     getBall->SetAttribute("name", name.c_str());
     getBall->SetAttribute("sudut", "0");

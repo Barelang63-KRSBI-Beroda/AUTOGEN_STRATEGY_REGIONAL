@@ -156,6 +156,7 @@ private:
     // UI Setup
     void setMainUi();
     void setupMainConnections();
+    void clearAllInput();
 
     // Behavior Generate
     void addMove();
